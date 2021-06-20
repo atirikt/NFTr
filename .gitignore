@@ -1,0 +1,2 @@
+# exclude everything except directory , install openzepplin on own
+node_modules/
