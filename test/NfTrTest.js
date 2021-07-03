@@ -25,11 +25,14 @@ contract('NftR', function(accounts){
       nftObj = obj;
       return nftObj.minter();
     }).then(function(minter){
-      assert.equal(minter, accounts[0],'minter ok');
+      assert.equal(minter, nftObj.address,'minter ok');
       return nftObj.admin();
     }).then(function(admin){
       assert.equal(admin, accounts[0], 'admin ok');
-      return nftObj.mint(string , accounts[1], {from:accounts[0]});
+      console.log(nftObj.address);
+      return nftObj.setMinter(accounts[0], {from:admin});
+    }).then(function(receipt){
+      return nftObj.mint(string , accounts[1], {from: accounts[0]});
     }).then(function(receipt){
       //console.log(receipt.logs[0].args);
       assert.equal(receipt.logs.length, 1, 'log length ok');
@@ -41,7 +44,7 @@ contract('NftR', function(accounts){
       return nftObj.totalSupply();
     }).then(function(supply){
       assert.equal(supply, 1, 'total supply ok');
-      return nftObj.mint(string , accounts[1], {from:accounts[0]});
+      return nftObj.mintExtern(string , {from:accounts[1]});
     }).then(assert.fail).catch(async function(error){
       //console.log(error.message);
       assert(error.message.indexOf('revert')>=0,'same token revert ok');

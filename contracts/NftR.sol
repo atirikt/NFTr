@@ -12,7 +12,7 @@ contract NftR is ERC721 {
 
   constructor() ERC721("NftR", "NftR") public {
     admin = payable(msg.sender);
-    minter = admin;
+    minter = address(this);
   }
 
   function setMinter(address _minter) public{
@@ -30,5 +30,7 @@ contract NftR is ERC721 {
     totalSupply++;
   }
 
-
+  function mintExtern(string memory _link) public{
+    mint(_link, msg.sender);
+  }
 }
